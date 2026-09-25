@@ -1,0 +1,274 @@
+NODE AND EXPRESS
+-----------------
+
+server is a separate application
+
+MVC Architecture
+-----------------
+  - used for creating a full stack application
+
+   M - Model - to define the structure of data stored in database
+   V - View - frontend part where the user interact (react , angular etc...)
+   C - Controller - logic to resolve request - part of server
+
+   Router - to set path to resolve the request
+
+
+NODE 
+----
+ - its not a programming language 
+ - its a run time environment which help the developer to run js outside the browser
+ - js is used as the server-side language because of node.
+
+Installation - https://nodejs.org/en/download
+
+packages - collection of libraries
+modules -> are libraries
+
+node_modules
+------------
+- modules are files/ js libraries that can be used in node.js based application
+
+    - imports -> require
+        syntax
+        ------
+          In frontend => import variable_name from 'module'
+
+          In Backend =>
+          const variable_name = require('module')
+
+
+    - exports -> module.exports
+        syntax
+        ------
+          In frontend => export default name
+
+          In Backend =>
+          module.exports = name 
+
+
+  
+- two types of modules
+    1) built-in modules - already defined modules
+    2) custom modules
+
+  built-in modules
+  ----------------
+  1) file system modules 
+        - Allows you to works with the files in your system.
+
+        common use 
+        ----------
+        1) to read a file - readfile()
+        2) to create a file - open()
+        3) to update/write a file - write()
+        4) to delete a file - unlink()
+        5) to rename a file - rename()
+    
+    2) http module 
+        - used to create a server which can handle http request
+        - to create a server - createServer()
+                    http.createServer((req , res)=> { }) 
+                    req , res => request and response
+        - to accept the request - listen()
+    
+    3) https module
+        - used to create a server whoch can handle https request
+        - to create a server - createServer()
+    
+    4) event modules 
+        - to generate events
+        - it is done with the help of eventEmitter class
+        - created using on() method in the above class
+        - execute - emit() method in the above class
+
+
+Environment variable
+--------------------
+  - environment variables are predetermined values that are typically used to provide the ability to configure a value in your code from outside the application 
+
+axios - will automatically convert the data into json 
+
+EXPRESS
+-------
+- its a node based framework used for creating the server
+
+  Steps to create a server using EXPRESS
+  --------------------------------------
+  1) create a folder for the server
+  2) create a package.json command using - npm init -y
+  3) install express , cors , mongoose , dotenv
+        express 
+            - npm i express
+            - create server
+
+        cors 
+            - npm i cors
+            - cors - cross origin resource sharing
+            - used to share data between 2 different applications ie, server and the frontend 
+
+        dotenv 
+            - npm i dotenv
+            - used to load the environment variables
+        
+        mongoose 
+            - npm i mongoose
+            - connect the server and the database
+
+           or
+            
+        npm i express cors mongoose dotenv
+    
+    4) create .gitignore file 
+    5) create index.js file - entry point to the server - and edit  
+    6) create a mongodb atlas cluster and place the connection string in .env file 
+
+
+
+Token Generation
+----------------
+JWT - json web token
+   - used to generate tokens in web applications
+   - go to json web token npm 
+
+  Steps to generate token 
+  -----------------------
+  1) install jsonwebtoken 
+        command -> npm i jsonwebtoken
+  2) To generate/create a token sign() method has to be used 
+        jwt.sign(data, secretOrPrivateKey, [options, callback])
+  3) To verify a token use verify() method 
+        jwt.verify(token, secretOrPublicKey, [options, callback])
+
+
+createObjectUrl() - to convert a file into url
+
+
+Middleware : its a function which have the ability to break the request response cycle
+- basically it have 3 arg -> req , res, next
+
+    syntax
+    ------
+    const middleware = (req, res, next)=> {
+    next() - to send the request to controller - logic part of the server side 
+    }
+    module.exports = middleware
+
+- there are 2 types of Middleware
+    1) Application specific middleware 
+        - all the request in the application must pass through this middleware
+
+        example:- 
+            // import this in index.js file and use applicationMiddleware serverName.use(applicationMiddleware)
+
+            const applicationMiddleware = (req, res , next)=> {
+                //logic
+                console.log('inside application specific middleware)
+                next()
+            }
+            module.exports = applicationMiddleware
+
+    2) Router specific middleware
+        - middleware will be active only in a specific path 
+    
+
+we are using the router specific middleware to acces the token in a particular field, where we arent need of token verification all over, so using the router specific middleware
+
+application specific - import in index.js , middleware is used by the server
+router specific - import in router.js, place the middleware in the path where you want to use the middleware
+
+iat - issued time in milli second
+
+
+
+MULTER
+-------
+
+- Multer is a node.js middleware for handling multipart/form-data, which is primarily used for uploading files.
+    - Multer will not process any form which is not multipart (multipart/form-data).
+    - Multer adds a body object and a file or files object to the request object.
+    - The body object contains the values of the text fields of the form, the file or files object contains the files uploaded via the form.
+
+    only one upload file - use -> upload.single('key')
+    if it is an array of more than one file -> upload.array('key', max limit)
+    if it is a object -> upload.fields('key', max limit)
+
+    DiskStorage
+    -----------
+    - it is used to store the uploaded files 
+    - is an object with 2 keys as destination and filename
+    - destionation -> will have a function with 3 args-> req, file, callback (callback - )
+    - filename -> have an arrow function- 3 args- req, file, callback
+
+    fileFilter
+    ---------
+    - function to control which files should be uploaded and which should be skipped.
+    - function with 3 args- req, file, callback 
+    - To reject this file pass `false`, like so:
+        cb(null, false)
+        
+        To accept the file pass `true`, like so:
+        cb(null, true)
+        
+        You can always pass an error if something goes wrong:
+        cb(new Error('I don\'t have a clue!'))
+    - type in backend - mimetype
+    - name in backend - originalname - name of the file on users computer
+
+
+
+    express.static() - to take the path of a folder from backend to frontend
+
+    $regex:search - regular expression 
+    $options:"i" - to nullify case sensitive
+
+    sessionStorage - ellam string aanu ie, data and key
+
+
+    contextAPI - used to share data between 2 components (done in bookstore project)
+
+    steps
+    -----
+    1) create a folder for context
+    2) inside the folder, create a component file - Contextshare
+    3) wrap the app component with Contextshare component
+    4) inside the component, create a context - using createContext() hook
+        const adminProfileUpdateStatusContext = createContext()
+      - export the context
+         export const adminProfileUpdateStatusContext = createContext()
+
+    
+    Steps for google authentication
+    --------------------------------
+    - install - npm i @react-oauth/google@0.12.1
+    - wrap app in GoogleOAuthProvider with client ID 
+    - create new project in google cloud
+    - open the new project, go to api & services
+    - sidebar- choose credentials
+    - then create crendentials- choose OAuth client ID 
+    - then choose configure consent screen
+    - get started
+    - fill the form (for audience choose external) and create
+    - choose create OAuth client
+    - choose application type as web application, type the name
+    - put the url in javascript origin and save, the copy the clientID and paste it in the key. 
+
+
+Stripe npm
+------------
+The Stripe Node library provides convenient access to the Stripe API from applications written in server-side JavaScript.
+For collecting customer and payment information in the browser, use Stripe.js.
+
+    - install - npm i stripe@18.1.1
+    - click stripe-node API docs  and choose checkout session 
+    - import stripe => const stripe = require('stripe') [done in backend-bookController] 
+    - add secret key - .env - environment variable
+    - create a checkout session for stripe 
+        create() method is used 
+    - 
+
+
+loadStripe
+-----------
+This function returns a Promise that resolves with a newly created Stripe object once Stripe.js has loaded. It takes the same parameters passed when directly initializing a Stripe instance. If necessary, it will load Stripe.js for you by inserting the Stripe.js script tag. If you call loadStripe in a server environment it will resolve to null.
+
