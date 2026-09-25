@@ -22,8 +22,8 @@ NODE
 
 Installation - https://nodejs.org/en/download
 
-packages - collection of libraries
-modules -> are libraries
+- packages -> collection of libraries
+- modules -> are libraries
 
 two types of modules
     1) built-in modules - already defined modules
